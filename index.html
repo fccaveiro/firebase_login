@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+</head>
+
+<body>
+    <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
+    <div id="content">
+        <div class="row">
+            <div class="col-xs-6 col-md-4"></div>
+            <div class="col-xs-6 col-md-4">
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email address</label>
+                    <input type="email" class="form-control" id="email" placeholder="Email">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="password" placeholder="Password">
+                </div>
+                <button id="login" class="btn btn-default">Login</button>
+                <button id="register" class="btn btn-default">Registar</button>
+            </div>
+        </div>
+        <div class="col-xs-6 col-md-4"></div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="http"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script> -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+        crossorigin="anonymous"></script>
+    <script src="https://www.gstatic.com/firebasejs/5.0.3/firebase.js"></script>
+    <script src="auth_conf.js"></script>
+    <script>
+        $(document).ready(() => {
+            // Initialize Firebase
+            firebase.initializeApp(config);
+
+            $('#login').click(function () {
+                firebase.auth().signInWithEmailAndPassword($('#email').val(), $('#password').val())
+                    .then(() => {
+                        $.get('main.html', function (data) {
+                            $('#content').html(data);
+                        });
+                        alert('Utilizador autenticado!');
+                    }).catch(function (err) {
+                        alert('Falha ao autenticar o utilizador!')
+                    });
+            });
+
+            $('#register').click(function () {
+                firebase.auth().createUserWithEmailAndPassword($('#email').val(), $('#password').val())
+                    .then(() => {
+                        alert('Utilizador registado!');
+                    }).catch(function (err) {
+                        alert(err);
+                    });
+            });
+        });
+
+    </script>
+</body>
+
+</html>
